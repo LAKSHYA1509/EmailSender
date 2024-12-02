@@ -137,6 +137,86 @@ public class EmailController {
 4. Add attachments (optional)
 5. Click "Send Email"
 
+## Deployment
+
+### Option 1: Deploy to Railway
+
+1. Create a Railway account at [railway.app](https://railway.app)
+2. Install Railway CLI:
+   ```bash
+   npm i -g @railway/cli
+   ```
+
+3. Login to Railway:
+   ```bash
+   railway login
+   ```
+
+4. Initialize Railway project:
+   ```bash
+   railway init
+   ```
+
+5. Add environment variables in Railway Dashboard:
+   - SPRING_MAIL_HOST=smtp.gmail.com
+   - SPRING_MAIL_PORT=587
+   - SPRING_MAIL_USERNAME=your-email@gmail.com
+   - SPRING_MAIL_PASSWORD=your-app-specific-password
+   - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+   - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+
+6. Deploy:
+   ```bash
+   railway up
+   ```
+
+### Option 2: Deploy to Render
+
+1. Create a Render account at [render.com](https://render.com)
+2. Create a new Web Service
+3. Connect your GitHub repository
+4. Configure the service:
+   - Build Command: `./mvnw clean install`
+   - Start Command: `java -jar target/*.jar`
+5. Add environment variables (same as Railway)
+6. Click "Create Web Service"
+
+### Option 3: Deploy using Docker
+
+1. Build the Docker image:
+   ```bash
+   mvn clean package
+   docker build -t emailsender .
+   ```
+
+2. Run locally:
+   ```bash
+   docker run -p 8080:8080 \
+   -e SPRING_MAIL_HOST=smtp.gmail.com \
+   -e SPRING_MAIL_PORT=587 \
+   -e SPRING_MAIL_USERNAME=your-email@gmail.com \
+   -e SPRING_MAIL_PASSWORD=your-app-specific-password \
+   -e SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true \
+   -e SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true \
+   emailsender
+   ```
+
+3. Push to Docker Hub:
+   ```bash
+   docker tag emailsender yourusername/emailsender
+   docker push yourusername/emailsender
+   ```
+
+### Important Deployment Notes
+
+1. Always use environment variables for sensitive information
+2. Enable CORS if needed for your domain
+3. Configure proper security headers
+4. Set up SSL/TLS for production
+5. Monitor application logs and performance
+6. Set up proper backup and disaster recovery
+7. Configure rate limiting if needed
+
 ## Security Considerations
 
 - Email credentials are stored in application.properties (ensure this file is not committed to version control)
