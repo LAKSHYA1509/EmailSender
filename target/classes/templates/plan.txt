@@ -1,0 +1,7 @@
+My plan is simple
+Let us make a Simple EMAIL Sender via Spring boot that uses Java Mail API
+It will send an email to a recipient
+It will have a rich text editor
+It can send via gmail or outlook
+It can attach files
+It can attach images
